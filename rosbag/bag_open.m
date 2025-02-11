@@ -60,7 +60,7 @@ function robot = bag_open(bagFilePath, varargin)
             robot{robot_idx}.Potential = arrayfun(@(m) setfield(m, 'Time', m.Time - start_time), robot{robot_idx}.Potential);
 
             msg_structs = readMessages(select(bag, 'Topic', options.TopicNameMap(j)),'DataFormat','struct');
-            if numel(msg_structs) > 1
+            if numel(msg_structs) > 0
                 robot{robot_idx}.Map = rosReadOccupancyGrid(msg_structs{1,1});
             end
     
@@ -87,7 +87,7 @@ function robot = bag_open(bagFilePath, varargin)
 
         end
         
-%         Gazeboモデルを取得する場合は個々のコメントをはずす
+%         Gazeboモデルを取得する場合はここのコメントをはずす
 %         for k = 1:length(msg_structs{j,1}.Name)
 %             robot{iniidx+k}.Odom = arrayfun(@(t, x, y, theta, v, omega) ...
 %                     struct('Time', t, 'X', x, 'Y', y, 'Theta', theta, 'V', v, 'Omega', omega), ...
